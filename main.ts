@@ -43,7 +43,7 @@ let minimim_time = 500
 let game_over = false
 let button_pressed = 69
 score = 0
-let round_start_time = 0
+let round_time = 0
 input.onButtonPressed(Button.A, function a_pressed() {
     let button_pressed = 0
 })
@@ -59,23 +59,26 @@ while (true) {
     }
     
     button_pressed = 96
-    round_start_time = input.runningTime()
+    round_time = input.runningTime() + input_window
     // checks for input or if input window passed
     while (true) {
-        if (button_pressed == random) {
-            game_over = false
-            break
-        } else if (button_pressed != random) {
-            game_over = true
-            break
-        } else if (round_start_time + input_window >= input.runningTime()) {
+        if (button_pressed != 96) {
+            if (button_pressed == random) {
+                game_over = false
+                break
+            } else if (button_pressed != random) {
+                game_over = true
+                break
+            }
+            
+        } else if (round_time < input.runningTime()) {
             game_over = true
             break
         }
         
     }
     // checks for game_over
-    if (game_over) {
+    if (game_over == true) {
         turn_off_all()
         break
     }

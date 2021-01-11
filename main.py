@@ -37,14 +37,16 @@ minimim_time = 500
 game_over = False
 button_pressed = 69
 score = 0
-round_start_time = 0
+round_time = 0
 
 input.on_button_pressed(Button.A, a_pressed)
 def a_pressed():
     button_pressed = 0
+    
 input.on_button_pressed(Button.B, b_pressed)
 def b_pressed():
     button_pressed = 1
+    
 
 while True:
     random = random_side()
@@ -53,26 +55,26 @@ while True:
     else:
         turn_on_side(right_columns)
     button_pressed = 96
-    round_start_time = input.running_time()
+    round_time = input.running_time() + input_window
 
     #checks for input or if input window passed
     while True:
-        if button_pressed == random:
-            game_over = False
-            break
-        elif button_pressed != random: 
-            game_over = True
-            break
-        elif (round_start_time + input_window) >= input.running_time():
+        if button_pressed != 96:
+            if button_pressed == random:
+                game_over = False
+                break
+            elif button_pressed != random: 
+                game_over = True
+                break
+        elif round_time < input.running_time():
             game_over = True
             break
         
     
     
     #checks for game_over
-    if game_over:
-        turn_off_all()
-        
+    if game_over == True:
+        turn_off_all() 
         break
 
     #score
