@@ -27,31 +27,62 @@ def turn_off_all():
 #picks either the list left_columns or right_columns randomly
 def random_side():
     random = randint(0, 1)
-    if random == 1:
-        return left_columns
-    else:
-        return right_columns
+    return random
 
 
-input.running_time()
-input.button_is_pressed(Button.A)
 
 input_window = 2000
 time_decay = 50
 minimim_time = 500
 game_over = False
+button_pressed = 69
+score = 0
+round_start_time = 0
+
+input.on_button_pressed(Button.A, a_pressed)
+def a_pressed():
+    button_pressed = 0
+input.on_button_pressed(Button.B, b_pressed)
+def b_pressed():
+    button_pressed = 1
+
 while True:
     random = random_side()
-    turn_on_side(random)
-    basic.pause(input_window)
+    if random == 1:
+        turn_on_side(left_columns)
+    else:
+        turn_on_side(right_columns)
+    button_pressed = 96
+    round_start_time = input.running_time()
+
+    #checks for input or if input window passed
+    while True:
+        if button_pressed == random:
+            game_over = False
+            break
+        elif button_pressed != random: 
+            game_over = True
+            break
+        elif (round_start_time + input_window) >= input.running_time():
+            game_over = True
+            break
+        
     
     
     #checks for game_over
-    if game_over == True:
+    if game_over:
+        turn_off_all()
+        
         break
+
+    #score
+    score += 1
 
     #time decay
     if input_window >500:
         input_window -= time_decay
     turn_off_all()
-        
+    
+
+#displays score
+basic.show_number(score)

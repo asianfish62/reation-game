@@ -1,4 +1,4 @@
-let random: number[];
+let random: number;
 /** this is a game where you have to */
 let row_num = [0, 1, 2, 3, 4]
 let left_columns = [0, 1]
@@ -32,31 +32,56 @@ function turn_off_all() {
 }
 
 // picks either the list left_columns or right_columns randomly
-function random_side(): number[] {
+function random_side(): number {
     let random = randint(0, 1)
-    if (random == 1) {
-        return left_columns
-    } else {
-        return right_columns
-    }
-    
+    return random
 }
 
-input.runningTime()
-input.buttonIsPressed(Button.A)
 let input_window = 2000
 let time_decay = 50
 let minimim_time = 500
 let game_over = false
+let button_pressed = 69
+score = 0
+let round_start_time = 0
+input.onButtonPressed(Button.A, function a_pressed() {
+    let button_pressed = 0
+})
+input.onButtonPressed(Button.B, function b_pressed() {
+    let button_pressed = 1
+})
 while (true) {
     random = random_side()
-    turn_on_side(random)
-    basic.pause(input_window)
+    if (random == 1) {
+        turn_on_side(left_columns)
+    } else {
+        turn_on_side(right_columns)
+    }
+    
+    button_pressed = 96
+    round_start_time = input.runningTime()
+    // checks for input or if input window passed
+    while (true) {
+        if (button_pressed == random) {
+            game_over = false
+            break
+        } else if (button_pressed != random) {
+            game_over = true
+            break
+        } else if (round_start_time + input_window >= input.runningTime()) {
+            game_over = true
+            break
+        }
+        
+    }
     // checks for game_over
-    if (game_over == true) {
+    if (game_over) {
+        turn_off_all()
         break
     }
     
+    // score
+    score += 1
     // time decay
     if (input_window > 500) {
         input_window -= time_decay
@@ -64,3 +89,5 @@ while (true) {
     
     turn_off_all()
 }
+// displays score
+basic.showNumber(score)
