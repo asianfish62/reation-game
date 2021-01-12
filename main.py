@@ -1,6 +1,8 @@
 """
 this is a game where you have to 
 """
+from microbit import *
+
 row_num = [0,1,2,3,4]
 left_columns = [0,1]
 right_columns = [3,4]
@@ -39,15 +41,7 @@ button_pressed = 69
 score = 0
 round_time = 0
 
-input.on_button_pressed(Button.A, a_pressed)
-def a_pressed():
-    button_pressed = 0
-    
-input.on_button_pressed(Button.B, b_pressed)
-def b_pressed():
-    button_pressed = 1
-    
-
+#badd while loop
 while True:
     random = random_side()
     if random == 1:
@@ -58,20 +52,28 @@ while True:
     round_time = input.running_time() + input_window
 
     #checks for input or if input window passed
-    while True:
-        if button_pressed != 96:
-            if button_pressed == random:
+    if random == 1:
+        while True:
+            if input.button_is_pressed(Button.A):
                 game_over = False
                 break
-            elif button_pressed != random: 
+            elif input.button_is_pressed(Button.B):
                 game_over = True
                 break
-        elif round_time < input.running_time():
-            game_over = True
-            break
-        
-    
-    
+            elif input.running_time() >= round_time:
+                game_over = True
+                break
+    elif random == 0:
+        while True:
+            if input.button_is_pressed(Button.A):
+                game_over = True
+                break
+            elif input.button_is_pressed(Button.B):
+                game_over = False
+                break
+            elif input.running_time() >= round_time:
+                game_over = True
+                break
     #checks for game_over
     if game_over == True:
         turn_off_all() 
@@ -81,7 +83,7 @@ while True:
     score += 1
 
     #time decay
-    if input_window >500:
+    if input_window > 500:
         input_window -= time_decay
     turn_off_all()
     

@@ -44,12 +44,7 @@ let game_over = false
 let button_pressed = 69
 score = 0
 let round_time = 0
-input.onButtonPressed(Button.A, function a_pressed() {
-    let button_pressed = 0
-})
-input.onButtonPressed(Button.B, function b_pressed() {
-    let button_pressed = 1
-})
+// badd while loop
 while (true) {
     random = random_side()
     if (random == 1) {
@@ -61,22 +56,36 @@ while (true) {
     button_pressed = 96
     round_time = input.runningTime() + input_window
     // checks for input or if input window passed
-    while (true) {
-        if (button_pressed != 96) {
-            if (button_pressed == random) {
+    if (random == 1) {
+        while (true) {
+            if (input.buttonIsPressed(Button.A)) {
                 game_over = false
                 break
-            } else if (button_pressed != random) {
+            } else if (input.buttonIsPressed(Button.B)) {
+                game_over = true
+                break
+            } else if (input.runningTime() >= round_time) {
                 game_over = true
                 break
             }
             
-        } else if (round_time < input.runningTime()) {
-            game_over = true
-            break
         }
-        
+    } else if (random == 0) {
+        while (true) {
+            if (input.buttonIsPressed(Button.A)) {
+                game_over = true
+                break
+            } else if (input.buttonIsPressed(Button.B)) {
+                game_over = false
+                break
+            } else if (input.runningTime() >= round_time) {
+                game_over = true
+                break
+            }
+            
+        }
     }
+    
     // checks for game_over
     if (game_over == true) {
         turn_off_all()
