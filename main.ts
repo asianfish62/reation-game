@@ -57,39 +57,33 @@ while (true) {
     round_time = input.runningTime() + input_window
     // checks for input or if input window passed
     if (random == 1) {
-        while (true) {
+        while (random == 1) {
             if (input.buttonIsPressed(Button.A)) {
                 game_over = false
-                break
+                random = -1
             } else if (input.buttonIsPressed(Button.B)) {
                 game_over = true
-                break
+                random = -1
             } else if (input.runningTime() >= round_time) {
                 game_over = true
-                break
+                random = -1
             }
             
         }
     } else if (random == 0) {
-        while (true) {
+        while (random == 0) {
             if (input.buttonIsPressed(Button.A)) {
                 game_over = true
-                break
+                random = -1
             } else if (input.buttonIsPressed(Button.B)) {
                 game_over = false
-                break
+                random = -1
             } else if (input.runningTime() >= round_time) {
                 game_over = true
-                break
+                random = -1
             }
             
         }
-    }
-    
-    // checks for game_over
-    if (game_over == true) {
-        turn_off_all()
-        break
     }
     
     // score
@@ -101,5 +95,14 @@ while (true) {
     
     turn_off_all()
 }
-// displays score
-basic.showNumber(score)
+/** 
+    #checks for game_over
+    if game_over:
+        turn_off_all() 
+        basic.show_number(score)
+
+
+#displays score
+basic.show_number(score)
+
+ */

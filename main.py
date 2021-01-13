@@ -53,32 +53,28 @@ while True:
 
     #checks for input or if input window passed
     if random == 1:
-        while True:
+        while random == 1:
             if input.button_is_pressed(Button.A):
                 game_over = False
-                break
+                random = -1
+                
             elif input.button_is_pressed(Button.B):
                 game_over = True
-                break
+                random = -1
             elif input.running_time() >= round_time:
                 game_over = True
-                break
+                random = -1
     elif random == 0:
-        while True:
+        while random == 0:
             if input.button_is_pressed(Button.A):
                 game_over = True
-                break
+                random = -1
             elif input.button_is_pressed(Button.B):
                 game_over = False
-                break
+                random = -1
             elif input.running_time() >= round_time:
                 game_over = True
-                break
-    #checks for game_over
-    if game_over == True:
-        turn_off_all() 
-        break
-
+                random = -1
     #score
     score += 1
 
@@ -86,7 +82,14 @@ while True:
     if input_window > 500:
         input_window -= time_decay
     turn_off_all()
-    
+                
+"""
+    #checks for game_over
+    if game_over:
+        turn_off_all() 
+        basic.show_number(score)
+
 
 #displays score
 basic.show_number(score)
+"""
